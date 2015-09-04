@@ -22,11 +22,13 @@ public class PogoController : MonoBehaviour {
 	private Transform groundDetector;
 	private Vector2 spawnPoint;
 	private bool canJump;
+	private int currentLevel;
 
 	
 	void Awake()
 	{
 		// Setting up references.
+		currentLevel = Application.loadedLevel;
 		groundDetector = transform.Find("GroundDetector");
 
 		spawnPoint = transform.position;
@@ -117,5 +119,15 @@ public class PogoController : MonoBehaviour {
 
 	private bool isObjectVisible(Renderer renderer){
 		return renderer.isVisible;
+	}
+
+	void OnCollisionEnter(Collision col){
+		if (col.gameObject.tag == "endingOrb") {
+			if(currentLevel <2){
+				Application.LoadLevel (currentLevel+1);
+			}else{
+				Application.LoadLevel (0);
+			}
+		}
 	}
 }
