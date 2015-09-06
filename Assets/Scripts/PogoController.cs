@@ -23,7 +23,8 @@ public class PogoController : MonoBehaviour {
 	private Vector2 spawnPoint;
 	private bool canJump;
 
-	private int currentLevel;
+	private static PogoController thisObject;
+	private static Collider thisGameCollider;
 
 	
 	void Awake()
@@ -31,7 +32,8 @@ public class PogoController : MonoBehaviour {
 		// Setting up references.
 		groundDetector = transform.Find("GroundDetector");
 		spawnPoint = transform.position;
-		currentLevel = Application.loadedLevel;
+		thisObject = this;
+		thisGameCollider = transform.GetComponent<Collider>();
 	}
 	
 	void Update()
@@ -71,7 +73,7 @@ public class PogoController : MonoBehaviour {
 		}
 
 		if(isObjectTooLow(GetComponent<Transform>())){
-			setObjectPosition(GetComponent<Rigidbody2D>(), spawnPoint);
+			returnToSpawnPoint();
 		}
 	}
 	
@@ -121,14 +123,7 @@ public class PogoController : MonoBehaviour {
 		return renderer.isVisible;
 	}
 
-	void OnCollisionEnter2D(Collision2D col)
-	{
-		if (col.gameObject.tag == "endingOrb") {
-			if(currentLevel <2){
-				Application.LoadLevel (currentLevel+1);
-			}else{
-				Application.LoadLevel (0);
-			}
-		}
+	public void returnToSpawnPoint(){
+		setObjectPosition(GetComponent<Rigidbody2D>(), spawnPoint);
 	}
 }

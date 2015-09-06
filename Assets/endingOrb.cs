@@ -25,4 +25,11 @@ public class endingOrb : MonoBehaviour {
 		                                 originalY + ((float)Math.Sin(Time.time) * floatStrength),
 		                                 transform.position.z);
 	}
+
+	void OnCollisionEnter2D(Collision2D col)
+	{
+		if (col.gameObject.tag == "Player") {
+			GlobalRunner.setCurrentLevel (currentLevel);
+		}
+	}
 }
