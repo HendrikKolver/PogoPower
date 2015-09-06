@@ -94,7 +94,7 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 111790}
-  m_Mass: 4
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 1
@@ -127,9 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71960d203a38dd944aa712b996b583ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForce: 40
-  maxSpeed: 10
-  jumpForce: 1500
+  moveForce: 5
+  maxSpeed: 3
+  jumpForce: 750
   randomMovementTimer: 3
   dropoutPoint: -5
 --- !u!212 &21213702

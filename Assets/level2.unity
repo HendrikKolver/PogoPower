@@ -727,6 +727,14 @@ Prefab:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6121746, guid: 3b36019005330be4ea57e9447d4b2bee, type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11440994, guid: 3b36019005330be4ea57e9447d4b2bee, type: 2}
+      propertyPath: moveForce
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b36019005330be4ea57e9447d4b2bee, type: 2}
   m_IsPrefabParent: 0
@@ -851,6 +859,10 @@ Prefab:
       propertyPath: targetObject
       value: 
       objectReference: {fileID: 784435433}
+    - target: {fileID: 2080444, guid: 1e237b885df48ff498b2165108e15189, type: 2}
+      propertyPath: orthographic size
+      value: 4.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1e237b885df48ff498b2165108e15189, type: 2}
   m_IsPrefabParent: 0
