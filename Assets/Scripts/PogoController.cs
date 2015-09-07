@@ -4,16 +4,6 @@ using System;
 
 public class PogoController : MonoBehaviour {
 
-	Vector3 zeroAc;
-	Vector3 curAc;
-	float sensH = 10f;
-	float sensV = 10f;
-	float smooth = 0.5f;
-	float GetAxisH = 0f;
-	float GetAxisV = 0f;
-	
-
-
 	[HideInInspector]
 	private bool jump = false;	
 	private bool jumpPressed = false;
@@ -36,15 +26,7 @@ public class PogoController : MonoBehaviour {
 	private static PogoController thisObject;
 	private static Collider thisGameCollider;
 
-	void ResetAxes(){
-		zeroAc = Input.acceleration;
-		curAc = Vector3.zero;
-	}
 	
-	void Start(){
-		ResetAxes();
-	}
-
 	void Awake()
 	{
 		// Setting up references.
@@ -74,7 +56,8 @@ public class PogoController : MonoBehaviour {
 			GetComponent<Rigidbody2D>().velocity= new Vector2(GetComponent<Rigidbody2D>().velocity.x,0f);
 		}
 
-		if(Input.GetButtonDown("Jump") || Input.touchCount > 0)
+
+		if(Input.GetButtonDown("Jump"))
 			jumpPressed = true;
 
 		if (grounded) {
@@ -83,7 +66,7 @@ public class PogoController : MonoBehaviour {
 
 		if (randomMovementCounter >= randomMovementTimer && grounded && !jump && !jumpPressed) {
 			bounce = true;
-			//moveObject(GetComponent<Rigidbody2D>(),(Vector2.right * getRandomNumber(-100.0f,100.0f)));
+			moveObject(GetComponent<Rigidbody2D>(),(Vector2.right * getRandomNumber(-100.0f,100.0f)));
 			if(GetComponent<Rigidbody2D>().velocity.y<=0f) 
 				jumpObject(GetComponent<Rigidbody2D>(),(jumpForce/1.5f));
 			randomMovementCounter = 0;
@@ -97,19 +80,23 @@ public class PogoController : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		// Cache the horizontal input.
-		curAc = Vector3.Lerp(curAc, Input.acceleration-zeroAc, Time.deltaTime/smooth);
-
-		GetAxisH = Mathf.Clamp(curAc.x * sensH, -5f, 5f);
-		// now use GetAxisV and GetAxisH instead of Input.GetAxis vertical and horizontal
-		// If the horizontal and vertical directions are swapped, swap curAc.y and curAc.x
-		// in the above equations. If some axis is going in the wrong direction, invert the
-		// signal (use -curAc.x or -curAc.y)
-
 		//float h = Input.GetAxis("Horizontal");
-		//This is to allow the player to quickly turn around
-		float h = GetAxisH;
-		if ((GetComponent<Rigidbody2D> ().velocity.x < 0 && h > 0) || (GetComponent<Rigidbody2D> ().velocity.x > 0 && h < 0)) {
-			h = h * 2.0f;
+		float h = 0f;
+		if (Input.touchCount > 0)
+		{
+			Touch[] touches = Input.touches;
+			foreach(Touch touch in touches){
+				if (touch.position.x < Screen.width/4)
+				{
+					h = -1f;
+				}
+				else if (touch.position.x > Screen.width - Screen.width/4)
+				{
+					h = 1f;
+				}else{
+					jumpPressed = true;
+				}
+			}
 		}
 		
 		if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed) {
@@ -128,7 +115,6 @@ public class PogoController : MonoBehaviour {
 	}
 
 	private void moveObject(Rigidbody2D component, Vector2 force){
-
 		component.AddForce(force);
 	}
 
@@ -154,7 +140,6 @@ public class PogoController : MonoBehaviour {
 	}
 
 	public void returnToSpawnPoint(){
-		ResetAxes();
 		setObjectPosition(GetComponent<Rigidbody2D>(), spawnPoint);
 	}
 }
