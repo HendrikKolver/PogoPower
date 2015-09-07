@@ -80,7 +80,24 @@ public class PogoController : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		// Cache the horizontal input.
-		float h = Input.GetAxis("Horizontal");
+		//float h = Input.GetAxis("Horizontal");
+		float h = 0f;
+		if (Input.touchCount > 0)
+		{
+			Touch[] touches = Input.touches;
+			foreach(Touch touch in touches){
+				if (touch.position.x < Screen.width/4)
+				{
+					h = -1f;
+				}
+				else if (touch.position.x > Screen.width - Screen.width/4)
+				{
+					h = 1f;
+				}else{
+					jumpPressed = true;
+				}
+			}
+		}
 		
 		if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed) {
 			moveObject(GetComponent<Rigidbody2D>(),(Vector2.right * h * moveForce)); 
@@ -91,7 +108,6 @@ public class PogoController : MonoBehaviour {
 
 		if(jump)
 		{	
-
 			jumpObject(GetComponent<Rigidbody2D>(),jumpForce);
 			moveObject(GetComponent<Rigidbody2D>(),(Vector2.right * getRandomNumber(-100.0f,100.0f)));
 			jump = false;
