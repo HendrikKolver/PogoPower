@@ -26,7 +26,7 @@ public class GlobalRunner : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.R)) {
-			pogoController.returnToSpawnPoint ();
+			pogoController.ResetPosition();
 			Time.timeScale = 1;
 		}
 
